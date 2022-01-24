@@ -1,25 +1,28 @@
 from faker import Faker
 fake=Faker()
-class person:
-    def __init__(self,name,company,job,email):
+class BaseContact:
+    def __init__(self,name,email,phone):
         self.name=name
-        self.company=company
-        self.job=job
+        self.phone=phone
         self.email=email
         #Variables
-        self._dlugosc=len(self.name)
+        self._label_len=len(self.name)
+    def __str__(self):
+        return f'{self.name} , {self.phone} , {self.email}'
     def contact(self):
-        print("Kontaktuje się z", self.name , self.job , self.email )
+        return (f"Wybieram numer {self.phone} I dzownię do {self.name} ")
     @property
-    def dlugosc(self):
+    def label_len(self):
         return len(self.name)
-person1=person(name=fake.name(),company=fake.company(),job=fake.job(),email=fake.email())
-person2=person(name=fake.name(),company=fake.company(),job=fake.job(),email=fake.email())
-person3=person(name=fake.name(),company=fake.company(),job=fake.job(),email=fake.email())
-person4=person(name=fake.name(),company=fake.company(),job=fake.job(),email=fake.email())
-person5=person(name=fake.name(),company=fake.company(),job=fake.job(),email=fake.email())
+class BusinesContact(BaseContact):
+    def __init__(self,job,company,BusinesPhone,*args,**kwargs):
+        super().__init__(*args,**kwargs)
+        self.job=job
+        self.company=company
+        self.BusinesPhone=BusinesPhone
+    def contact(self):
+        return (f"Wybieram numer {self.BusinesPhone} I dzownię do {self.name} ")
+contact1=BaseContact(name=fake.name(), phone=fake.phone_number(), email=fake.email())
+contact2=BusinesContact(name=fake.name(), phone=fake.phone_number(), email=fake.email(),job=fake.job(),company=fake.company(), BusinesPhone=123456789)
 
-print(person4.name)
-print(person4._dlugosc)
-
-
+print(contact2)
